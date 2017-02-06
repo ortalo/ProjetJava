@@ -55,7 +55,7 @@ public abstract class Animal implements Test{
 		if(this.stress){
 			etat=" stressé ";
 		}else{
-			vie=" serein ";
+			etat=" serein ";
 		}
 
 		System.out.println("ID: "+this.ID+" "+vie+this.sexe+" poids initial: "+

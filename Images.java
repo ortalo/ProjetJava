@@ -1,39 +1,49 @@
 public class Images implements Test{
-	private int[][] tentatives=new int[5][5];
+	private Vector tentatives=new Vector; //vecteur de tableaux de 5 int, chaque int etant le nombre de tentative par essai
 	private int bestDay;
+	private int duree = 4 ;
 	private String type="Images";
+	private int nbEssai=5; //chaque jour e test se compose de n evaluations, n=nbTest
 	
-	public double apprentissage(){
-		double moyenne0=new double();
-		int sum0=new int(0);
-		double moyenne4=new double();
-		int sum4=new int(0);
-		for(int i=0;i<5;i++){
-			sum0+=tentatives[0][i];
-			sum4+=tentatives[4][i];
+	public double apprentissage(int semaine){
+		int lundi=semaine*5;
+		int vendredi=semaine+4;
+		double moyenneLundi=new double();
+		int sumLundi=new int();
+		double moyenneVendredi=new double();
+		int sumVendredi=new int();
+		int[] scoresLundi=this.tentatives.elementAt(lundi);
+		int[] scoresVendredi=this.tentatives.elementAt(vendredi);
+		for(int i=0;i<this.nbEssai;i++){
+			sumLundi+=scoresLundi[i];
+			sumVendredi+=scoresVendredi[i];
 		}
-		moyenne0=(double)sum0/(double)5;
-		moyenne4=(double)sum4/(double)5;
-		return (moyenne0-moyenne4)*100/moyenne0;
+		moyenneLundi=(double)sumLundi/(double)5;
+		moyenneVendredi=(double)sumVendredi/(double)5;
+		return (moyenneLundi-moyenneVendredi)*100/moyenneLundi;
 	}
 	public setResultats(){
-		for(int i=0;i<5;i++){
+		for(int i=0;i<this.nbEssai;i++){
 			System.out.println("Jour "+Etudes.getJour()+" essai nb "+i+": ");
 			System.out.println("Combien de tentatives avant de trouver l image ? ");
 			int rep=Etude.saisie_entier;
-			this.tentatives[Etude.getJour()][i]=rep;
+			int jour=Etude.getJour();
+			this.tentatives.elementAt(jour)[i]=rep;
 		}
 	}
-	public getBestDay(){
+	public getBestDay(int semaine){
+		int lundi=semaine*5;
+		int vendredi=semaine+4;
 		double min=11.0;
-		int day=new int(0);
-		for(int i=0;i<5;i++){
+		int day=new int();
+		for(int i=lundi;i<=vendredi;i++){
 			double moyenne=new double();
-			int sum=new int(0);
-			for(int j=0;j<5;j++){
-				sum+=tentatives[i][j];
+			int sum=new int();
+			int[] current=this.tentatives.elementAt(i);
+			for(int j=0;j<nbEssai;j++){
+				sum+=current[j];
 			}
-			moyenne=(double)sum/(double)5;
+			moyenne=(double)sum/(double)nbEssai;
 			if(moyenne < min){
 				min=moyenne;
 				day=i;
@@ -41,10 +51,12 @@ public class Images implements Test{
 		}
 		return day;
 	}
-	public getType(){
+	public String getType(){
 		return this.type;
 	}
-
+	public int getDuree(){
+		return this.duree;
+	}
 }
 
 
