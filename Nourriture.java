@@ -1,11 +1,13 @@
 public class Nourriture implements Test{
-	private int[] cachettes=new int[5];
-	private boolean[] succes=new int[5];
+	private Vector cachettes=new Vector();
+	private Vector succes=new Vector();
 	private int bestDay;
 	private String type="Nourriture";
 	
-	public double apprentissage(){
-		return (this.cachettes[0]-this.cachettes[4])*100/this.cachettes[0];
+	public double apprentissage(int semaine){
+		int lundi=semaine*5;
+		int vendredi=lundi+4;
+		return (this.cachettes.elementAt(lundi)-this.cachettes.elementAt(4))*100/this.cachettes.elementAt(0);
 	}
 	public setResultats(){
 		System.out.println("La nourriture a-t-elle ete retrouvee? (succes) O/N ");
