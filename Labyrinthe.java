@@ -2,6 +2,7 @@
 public class Labyrinthe implements Test{
 	private Vector temps=new Vector();
 	private int bestDay;
+	private int duree = 4 ;
 	private String type="Labyrinthe";
 	
 	public double apprentissage(int semaine){
@@ -30,6 +31,9 @@ public class Labyrinthe implements Test{
 	}
 	public String getType(){
 		return this.type;
+	}
+	public int getDuree(){
+		return this.duree;
 	}
 }
 
