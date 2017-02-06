@@ -2,6 +2,7 @@ public class Nourriture implements Test{
 	private Vector cachettes=new Vector();
 	private Vector succes=new Vector();
 	private int bestDay;
+	private int duree = 4 ;
 	private String type="Nourriture";
 	
 	public double apprentissage(int semaine){
@@ -30,8 +31,11 @@ public class Nourriture implements Test{
 		}
 		return day;
 	}
-	public getType(){
+	public String getType(){
 		return this.type;
+	}
+	public int getDuree(){
+		return this.duree;
 	}
 }
 
