@@ -7,7 +7,7 @@ public class Etude{
 	private static Vector singes=new Vector;
 	private static int jour=-1;
 	private static int semaine=0;
-	privae static int duree=4;
+	private static int duree=4;
 	
 	public static void main(String[] args){
 		System.out.println("Bonjour nous sommes jour "+(Etude.jour+1)+" de la semaine "+(Etude.semaine+1));
