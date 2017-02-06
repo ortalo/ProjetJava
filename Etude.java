@@ -8,8 +8,8 @@ public class Etude{
 	private int jour;
 	public static void main(String[] args){
 		System.out.println("Bonjour nous sommes jour "+this.jour);
-		if(this.jour.equals(4)){
-			System.out.println("Nous sommes jour 4 (vendredi) voulez vous realiser le bilan? O/N ");
+		if(this.jour.equals(getDuree)){
+			System.out.println("Nous sommes au derner jour de l'experience, voulez vous realiser le bilan? O/N ");
 			String rep=saisie_chaine;
 			if(rep.charAt(0).equals("o") || rep.charAt(0).equals("O")){
 				bilan();
