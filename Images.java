@@ -1,6 +1,7 @@
 public class Images implements Test{
 	private int[][] tentatives=new int[5][5];
 	private int bestDay;
+	private int duree = 4 ;
 	private String type="Images";
 	
 	public double apprentissage(){
@@ -41,10 +42,12 @@ public class Images implements Test{
 		}
 		return day;
 	}
-	public getType(){
+	public String getType(){
 		return this.type;
 	}
-
+	public int getDuree(){
+		return this.duree;
+	}
 }
 
 
