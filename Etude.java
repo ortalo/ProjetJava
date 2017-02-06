@@ -167,7 +167,7 @@ public class Etude{
 			int num = Integer.parseInt(chaine);
 			return num;
 			}
-		catch(IOException e){return0;}
+		catch(IOException e){return 0;}
 	}
 	public static int saisie_double (){
 		try{
@@ -177,7 +177,7 @@ public class Etude{
 			double num = Double.parseDouble(chaine);
 			return num;
 			}
-		catch(IOException e){return0;}
+		catch(IOException e){return 0;}
 	}
 }
 
