@@ -8,7 +8,7 @@ public class Nourriture implements Test{
 	public double apprentissage(int semaine){
 		int lundi=semaine*5;
 		int vendredi=lundi+4;
-		return (this.cachettes.elementAt(lundi)-this.cachettes.elementAt(4))*100/this.cachettes.elementAt(0);
+		return (this.cachettes.elementAt(lundi)-this.cachettes.elementAt(vendredi))*100/this.cachettes.elementAt(lundi);
 	}
 	public setResultats(){
 		System.out.println("La nourriture a-t-elle ete retrouvee? (succes) O/N ");
@@ -20,12 +20,15 @@ public class Nourriture implements Test{
 		int nb=Etude.saisie_entier;
 		this.cachettes[Etude.getJour()]=nb;
 	}
-	public getBestDay(){
-		int min=this.cachettes[0]();
-		int day=new int(0);
-		for(int i=0;i<5;i++){
-			if(this.cachettes[i] < min){
-				min=this.cachettes[i];
+	public getBestDay(int semaine){
+		int lundi=semaine*5;
+		int vendredi=lundi+4;
+		int min=this.cachettes.elementAt(lundi);
+		int day=new int();
+		for(int i=lundi;i<vendedi;i++){
+			int current=this.cachettes.elementAt(i);
+			if(current < min){
+				min=current;
 				day=i;
 			}
 		}
