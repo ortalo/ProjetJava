@@ -1,7 +1,7 @@
 public interface Test{
-	public setResultats();
-	public apprentissage(int semaine);
-	public save();
-	public getBestDay(int semaine);
+	public void setResultats();
+	public double apprentissage(int semaine);
+	public int getBestDay(int semaine);
+	public String getType();
 }
 

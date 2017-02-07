@@ -1,49 +1,54 @@
+import java.util.ArrayList;
 public class Images implements Test{
-	private Vector tentatives=new Vector; //vecteur de tableaux de 5 int, chaque int etant le nombre de tentative par essai
+	private ArrayList tentatives=new ArrayList(); //vecteur de tableaux de 5 int, chaque int etant le nombre de tentative par essai
 	private int bestDay;
 	private int duree = 4 ;
 	private String type="Images";
-	private int nbEssai=5; //chaque jour e test se compose de n evaluations, n=nbTest
+	private static Integer nbEssai=new Integer(5); //chaque jour e test se compose de n evaluations, n=nbTest
 	
+	public Images(int duree){
+		this.duree=duree;
+	}
 	public double apprentissage(int semaine){
 		int lundi=semaine*5;
 		int vendredi=semaine+4;
-		double moyenneLundi=new double();
-		int sumLundi=new int();
-		double moyenneVendredi=new double();
-		int sumVendredi=new int();
-		int[] scoresLundi=this.tentatives.elementAt(lundi);
-		int[] scoresVendredi=this.tentatives.elementAt(vendredi);
+		double moyenneLundi=0.0;
+		double sumLundi=0.0;
+		double moyenneVendredi=0.0;
+		double sumVendredi=0.0;
+		int[] scoresLundi=(int[])this.tentatives.get(lundi);
+		int[] scoresVendredi=(int[])this.tentatives.get(vendredi);
 		for(int i=0;i<this.nbEssai;i++){
 			sumLundi+=scoresLundi[i];
 			sumVendredi+=scoresVendredi[i];
 		}
-		moyenneLundi=(double)sumLundi/(double)5;
-		moyenneVendredi=(double)sumVendredi/(double)5;
+		moyenneLundi=sumLundi/nbEssai.doubleValue();
+		moyenneVendredi=sumVendredi/nbEssai.doubleValue();
 		return (moyenneLundi-moyenneVendredi)*100/moyenneLundi;
 	}
-	public setResultats(){
-		for(int i=0;i<this.nbEssai;i++){
-			System.out.println("Jour "+Etudes.getJour()+" essai nb "+i+": ");
+	public void setResultats(){
+		int[] resultats=new int[Images.nbEssai];
+		for(int i=0;i<Images.nbEssai;i++){
+			System.out.println("Jour "+Etude.getJour()+" essai nb "+i+": ");
 			System.out.println("Combien de tentatives avant de trouver l image ? ");
-			int rep=Etude.saisie_entier;
-			int jour=Etude.getJour();
-			this.tentatives.elementAt(jour)[i]=rep;
+			int rep=Etude.saisie_entier();
+			resultats[i]=rep;
 		}
+		this.tentatives.add(resultats);
 	}
-	public getBestDay(int semaine){
+	public int getBestDay(int semaine){
 		int lundi=semaine*5;
 		int vendredi=semaine+4;
 		double min=11.0;
-		int day=new int();
+		int day=0;
 		for(int i=lundi;i<=vendredi;i++){
-			double moyenne=new double();
-			int sum=new int();
-			int[] current=this.tentatives.elementAt(i);
+			double moyenne;
+			double sum=0;
+			int[] current=(int[])this.tentatives.get(i);
 			for(int j=0;j<nbEssai;j++){
 				sum+=current[j];
 			}
-			moyenne=(double)sum/(double)nbEssai;
+			moyenne=sum/nbEssai.doubleValue();
 			if(moyenne < min){
 				min=moyenne;
 				day=i;

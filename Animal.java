@@ -1,4 +1,4 @@
-public abstract class Animal implements Test{
+public abstract class Animal {
 	protected String ID;
 	protected char sexe;
 	protected double poidsInitial;
@@ -7,9 +7,6 @@ public abstract class Animal implements Test{
 	protected boolean vivant;
 	protected Test test;
 
-	protected String toString();
-	protected void save();
-	
 	public Animal(String ID, char sexe, double poids,Test test){
 		this.ID=ID;
 		this.sexe=sexe;
@@ -21,7 +18,7 @@ public abstract class Animal implements Test{
 	}
 
 	public Test getTest(){
-		return this.test
+		return this.test;
 	}
 
 	public boolean isVivant(){
@@ -44,7 +41,7 @@ public abstract class Animal implements Test{
 			this.stress=false;
 		}
 	}
-	public void toString(){
+	public String toString(){
 		String vie;
 		if(this.vivant){
 			vie=" vivant ";
@@ -58,9 +55,9 @@ public abstract class Animal implements Test{
 			etat=" serein ";
 		}
 
-		System.out.println("ID: "+this.ID+" "+vie+this.sexe+" poids initial: "+
-				this.poidsInitial+" poids actuel: "+this.poidsCourrant+
-				" condition: "+etat);
+		return("| ID: "+this.ID+"| sexe:"+this.sexe+"| poids initial: "+
+				this.poidsInitial+"| poids actuel: "+this.poidsCourrant+
+				"| condition: "+etat+" "+vie);
 	}	
 }
 

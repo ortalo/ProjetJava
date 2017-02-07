@@ -1,32 +1,37 @@
+import java.util.ArrayList;
+
 public class Nourriture implements Test{
-	private Vector cachettes=new Vector();
-	private Vector succes=new Vector();
+	private ArrayList cachettes=new ArrayList();
+	private ArrayList succes=new ArrayList();
 	private int bestDay;
 	private int duree = 4 ;
 	private String type="Nourriture";
 	
+	public Nourriture(int duree){
+		this.duree=duree;
+	}
 	public double apprentissage(int semaine){
 		int lundi=semaine*5;
 		int vendredi=lundi+4;
-		return (this.cachettes.elementAt(lundi)-this.cachettes.elementAt(vendredi))*100/this.cachettes.elementAt(lundi);
+		return ((double)this.cachettes.get(lundi)-(double)this.cachettes.get(vendredi))*100/(double)this.cachettes.get(lundi);
 	}
-	public setResultats(){
+	public void setResultats(){
 		System.out.println("La nourriture a-t-elle ete retrouvee? (succes) O/N ");
-		String rep=Etude.saisie_chaine;
-		if(rep.charAt(0).equals("o") || rep.charAt(0).equals("O")){
-			this.succes[Etude.getJour()]=true;
+		String rep=Etude.saisie_chaine();
+		if(rep.charAt(0)=='o' || rep.charAt(0)=='O'){
+			this.succes.add(true);
 		}
 		System.out.println("Combien de cachettes explorees? )");
-		int nb=Etude.saisie_entier;
-		this.cachettes[Etude.getJour()]=nb;
+		double nb=(double)Etude.saisie_double();
+		this.cachettes.add(nb);
 	}
-	public getBestDay(int semaine){
+	public int getBestDay(int semaine){
 		int lundi=semaine*5;
 		int vendredi=lundi+4;
-		int min=this.cachettes.elementAt(lundi);
-		int day=new int();
-		for(int i=lundi;i<vendedi;i++){
-			int current=this.cachettes.elementAt(i);
+		double min=(double)this.cachettes.get(lundi);
+		int day=0;
+		for(int i=lundi;i<=vendredi;i++){
+			double current=(double)this.cachettes.get(i);
 			if(current < min){
 				min=current;
 				day=i;
