@@ -41,6 +41,8 @@ public class Labyrinthe implements Test{
 	public int getDuree(){
 		return this.duree;
 	}
+	public void save(bufferedWriter buff){
+		buff.write(
 }
 
 

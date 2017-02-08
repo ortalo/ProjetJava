@@ -3,5 +3,6 @@ public interface Test{
 	public double apprentissage(int semaine);
 	public int getBestDay(int semaine);
 	public String getType();
+	public void save();
 }
 

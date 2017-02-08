@@ -58,7 +58,21 @@ public abstract class Animal {
 		return("| ID: "+this.ID+"| sexe:"+this.sexe+"| poids initial: "+
 				this.poidsInitial+"| poids actuel: "+this.poidsCourrant+
 				"| condition: "+etat+" "+vie);
-	}	
+	}
+	void save(BufferedWriter buff)throws IOException{
+		buff.write("<animal>");
+		buff.write(this.sexe);
+		buff.write("|");
+		buff.write((new Double(this.poidsInitial)).toString());
+		buff.write("|");
+		buff.write((new Double(this.poidsCourrant)).toString());
+		buff.write("|");
+		if(this.stress){buff.write("true");}else{buff.write("false");}
+		buff.write("|");
+		if(this.vivant){buff.write("true");}else{buff.write("false");}
+		buff.write("<test>");
+		this.test.save(buff);
+		buff.write("</test>");
+		buff.write("</animal>");
+	}
 }
-
-

@@ -29,7 +29,7 @@ public class Images implements Test{
 	public void setResultats(){
 		int[] resultats=new int[Images.nbEssai];
 		for(int i=0;i<Images.nbEssai;i++){
-			System.out.println("Jour "+Etude.getJour()+" essai nb "+i+": ");
+			System.out.println("Jour "+(Etude.getJour()+1)+" essai nb "+i+": ");
 			System.out.println("Combien de tentatives avant de trouver l image ? ");
 			int rep=Etude.saisie_entier();
 			resultats[i]=rep;
