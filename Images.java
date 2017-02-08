@@ -1,7 +1,7 @@
+import java.io.*;
 import java.util.ArrayList;
 public class Images implements Test{
 	private ArrayList tentatives=new ArrayList(); //vecteur de tableaux de 5 int, chaque int etant le nombre de tentative par essai
-	private int bestDay;
 	private int duree = 4 ;
 	private String type="Images";
 	private static Integer nbEssai=new Integer(5); //chaque jour e test se compose de n evaluations, n=nbTest
@@ -61,6 +61,18 @@ public class Images implements Test{
 	}
 	public int getDuree(){
 		return this.duree;
+	}
+	public void save(BufferedWriter buff){
+		try{
+		for(int i=0;i<this.tentatives.size();i++){
+			int[] essais=(int[])this.tentatives.get(i);
+			for(Integer essai : essais){
+				buff.write(essai.toString());
+				buff.write(":");
+			}
+			buff.write(",");
+		}
+		}catch(IOException e){System.out.println("erreur");}
 	}
 }
 

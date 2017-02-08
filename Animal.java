@@ -1,3 +1,5 @@
+import java.io.BufferedWriter;
+import java.io.IOException;
 public abstract class Animal {
 	protected String ID;
 	protected char sexe;
@@ -60,7 +62,6 @@ public abstract class Animal {
 				"| condition: "+etat+" "+vie);
 	}
 	void save(BufferedWriter buff)throws IOException{
-		buff.write("<animal>");
 		buff.write(this.sexe);
 		buff.write("|");
 		buff.write((new Double(this.poidsInitial)).toString());
@@ -70,9 +71,7 @@ public abstract class Animal {
 		if(this.stress){buff.write("true");}else{buff.write("false");}
 		buff.write("|");
 		if(this.vivant){buff.write("true");}else{buff.write("false");}
-		buff.write("<test>");
+		buff.write("|");
 		this.test.save(buff);
-		buff.write("</test>");
-		buff.write("</animal>");
 	}
 }

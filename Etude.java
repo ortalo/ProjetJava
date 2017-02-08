@@ -44,6 +44,7 @@ public class Etude{
 					break;
 				case 3:newJour();break;
 				case 4:bilan();break;
+				case 5:ecrire(animaux);break;
 				case 7:q=false;break;
 				default:System.out.println("Mauvaise entree");break;
 			}
@@ -249,20 +250,21 @@ public class Etude{
 			}
 		catch(IOException e){return 0;}
 	}
-	public static void ecrire (ArrayList animaux)
-	throws IOException{
+	public static void ecrire (ArrayList animaux){
+		try{
 		BufferedWriter buff=new BufferedWriter
 		(new FileWriter("savedEtude.txt"));
-		buff.write((new Integer(age)).toString());
 		buff.write("<etude>"+(new Integer(Etude.jour)).toString()+"|"+
 				(new Integer(Etude.semaine)).toString()+"|"+(new Integer(Etude.semaine)).toString()+"</etude>");
 		buff.newLine();
 		for(Enumeration e = Collections.enumeration(animaux);e.hasMoreElements();){
 			Animal courant = (Animal)e.nextElement();
 			courant.save(buff);
+			buff.newLine();
 		}
 		buff.flush();
 		buff.close();
+		}catch(IOException e){System.out.println("Erreur de sauvegarde");}
 	}
 }
 
