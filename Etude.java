@@ -70,6 +70,23 @@ public class Etude{
 			System.out.println(a.toString());
 		}
 	}
+	
+	public static void modifierAnimal(Arraylist animaux){
+		afficheAnimaux(animaux);
+		System.out.println("Donnez l'ID de l'animal que vous voulez modifier");
+		int ID=saisie_entier();
+		for(Enumeration e=Collections.enumeration(animaux);e.hasMoreElements();){
+			Animal a= (Animal)e.nextElement();
+			int ID_a=getID(a);
+			if (ID_a == ID){
+				boolean rep = true;
+				while(rep){
+					
+				}
+			}
+		}
+		
+	}
 
 	public static void newJour(){
 		Etude.jour++;
