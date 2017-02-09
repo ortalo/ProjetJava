@@ -1,9 +1,8 @@
 import java.util.ArrayList;
-
+import java.io.*;
 public class Nourriture implements Test{
 	private ArrayList cachettes=new ArrayList();
 	private ArrayList succes=new ArrayList();
-	private int bestDay;
 	private int duree = 4 ;
 	private String type="Nourriture";
 	
@@ -44,6 +43,18 @@ public class Nourriture implements Test{
 	}
 	public int getDuree(){
 		return this.duree;
+	}
+	public void save(BufferedWriter buff){
+		try{
+		for(int i=0;i<this.cachettes.size();i++){
+			Double cachettes=(Double)this.cachettes.get(i);
+			boolean succes =(boolean)this.succes.get(i);
+			buff.write(cachettes.toString());
+			buff.write(":");
+			if(succes){buff.write("true");}else{buff.write("false");}
+			buff.write(",");
+		}
+		}catch(IOException e){System.out.println("Erreur de sauvegarde");}
 	}
 }
 

@@ -1,7 +1,7 @@
-import java.util.ArrayList;
+import java.io.*;
+import java.util.*;
 public class Labyrinthe implements Test{
 	private ArrayList temps=new ArrayList();
-	private int bestDay;
 	private int duree;
 	private String type="Labyrinthe";
 	
@@ -41,7 +41,13 @@ public class Labyrinthe implements Test{
 	public int getDuree(){
 		return this.duree;
 	}
+	public void save(BufferedWriter buff){
+		try{
+		for(Enumeration e = Collections.enumeration(this.temps);e.hasMoreElements();){
+			Double current=(Double)e.nextElement();
+			buff.write(current.toString());
+			buff.write(",");
+		}
+		}catch(IOException e){System.out.println("Erreur");}
+	}
 }
-
-
-

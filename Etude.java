@@ -12,7 +12,7 @@ public class Etude{
 	public static void main(String[] args){
 		boolean q=true;
 		while(q){
-			System.out.println("Bonjour nous sommes jour "+(Etude.jour+1)+" de la semaine "+(Etude.semaine+1));
+			System.out.println("------Bonjour nous sommes jour "+(Etude.jour+1)+" de la semaine "+(Etude.semaine+1)+"------");
 			if(Etude.jour==Etude.duree){
 				System.out.println("Nous sommes au derner jour de l'experience, voulez vous realiser le bilan? O/N ");
 				String rep=saisie_chaine();
@@ -23,26 +23,53 @@ public class Etude{
 			menu();
 			int choix=saisie_entier();
 			switch(choix){
-				case 1:newJour();break;
-				case 2:addAnimal();break;
-				case 3:bilan();break;
-				case 6:q=false;break;
-				default:System.out.println("Mauvaise entree");
+				case 1:addAnimal();break;
+				case 2:System.out.println("Quelle espèce afficher ? souris(1),singes(2)");
+				       int espece=0;
+				       boolean loop=true;
+				       while(loop){
+						try{
+						espece=saisie_entier();
+						if( choix==1 || choix==2 ){
+							loop=false;
+						}else{System.out.println("Mauvaise entree");}
+				
+						}catch(Exception e){System.out.println("Mauvaise entree");}
+					}
+			       		switch(espece){
+				 		case 1:afficheAnimaux(Etude.souris);break;
+						case 2:afficheAnimaux(Etude.singes);break;
+						default:System.out.println("Mauvaise entree");
+					}
+					break;
+				case 3:newJour();break;
+				case 4:bilan();break;
+				case 5:ecrire(animaux);break;
+				case 7:q=false;break;
+				default:System.out.println("Mauvaise entree");break;
 			}
 		}
 	}
 
 	public static void menu(){
 		System.out.println("------Menu------");
-		System.out.println("1-Nouveau jour (mise a jour des poids et des resultats de chaque animal)");
-		System.out.println("2-Ajouter un animal");
-		System.out.println("3-Lancer bilan");
-		System.out.println("4-Sauver");
-		System.out.println("5-charger");
-		System.out.println("6-Quitter");
+		System.out.println("1-Ajouter un animal");
+		System.out.println("2-Afficher animaux");
+		System.out.println("3-Nouveau jour (mise a jour des poids et des resultats de chaque animal)");
+		System.out.println("4-Lancer bilan");
+		System.out.println("5-Sauver");
+		System.out.println("6-charger");
+		System.out.println("7-Quitter");
 	}
 
 
+	public static void afficheAnimaux(ArrayList animaux){
+		for(Enumeration e=Collections.enumeration(animaux);e.hasMoreElements();){
+			Animal a= (Animal)e.nextElement();
+			System.out.println("------Animal------");
+			System.out.println(a.toString());
+		}
+	}
 
 	public static void newJour(){
 		Etude.jour++;
@@ -52,6 +79,7 @@ public class Etude{
 
 		for(Enumeration e=Collections.enumeration(animaux);e.hasMoreElements();){
 			Animal a=(Animal)e.nextElement();
+			System.out.println("------Animal------");
 			System.out.println(a.toString());
 			if(a.isVivant()){
 				System.out.println("Animal toujours vivant? O/N");
@@ -69,6 +97,9 @@ public class Etude{
 		}
 	}
 	public static void addAnimal(){
+		if( Etude.jour >=0 ){
+			System.out.println("Vous tentez d'ajouter un animal à une etude en cours.");
+		}else{
 		System.out.println("Entrez l'IDentifiant: ");
 		String ID=saisie_chaine();
 		
@@ -96,7 +127,7 @@ public class Etude{
 		}
 
 		
-		Test test=new Labyrinthe(duree);
+		Test test=null;
 		q=true;
 		while(q){
 			System.out.println("Quel test doit passer l'animal ? ");
@@ -141,7 +172,7 @@ public class Etude{
 				System.out.println("Mauvaise entree");
 			}
 		}
-
+		}
 	}
 	public static int getJour(){
 		return Etude.jour;
@@ -219,5 +250,69 @@ public class Etude{
 			}
 		catch(IOException e){return 0;}
 	}
-}
+	public static void ecrire (ArrayList animaux){
+		try{
+		BufferedWriter buffEtude=new BufferedWriter
+		(new FileWriter("savedEtude.txt"));
+		buffEtude.write((new Integer(Etude.jour)).toString()+"|"+
+				(new Integer(Etude.semaine)).toString()+"|"+(new Integer(Etude.duree)).toString());
+		buffEtude.flush();
+		buffEtude.close();
 
+		BufferedWriter buff=new BufferedWriter
+		(new FileWriter("savedAnimals.txt"));
+		buff.newLine();
+		for(Enumeration e = Collections.enumeration(animaux);e.hasMoreElements();){
+			Animal courant = (Animal)e.nextElement();
+			courant.save(buff);
+			buff.newLine();
+		}
+		buff.flush();
+		buff.close();
+		}catch(IOException e){System.out.println("Erreur de sauvegarde");}
+	}
+
+	public static void lire (ArrayList animaux,ArrayList singes,ArrayList souris)throws IOException{
+		BufferedReader buffEtude=new BufferedReader(new FileReader("savedEtude.txt"));
+		BufferedReader buff=new BufferedReader(new FileReader("savedAnimals.txt"));
+		try {
+
+			String etude = buff.readLine();
+			String[] etudeVals=etude.split("|");
+			int jour= Integer.valueOf(etudeVals[0]).intValue();
+			Etude.jour=jour;
+			int semaine= Integer.valueOf(etudeVals[1]).intValue();
+			Etude.semaine=semaine;
+			int duree= Integer.valueOf(etudeVals[2]).intValue();
+			Etude.duree=duree;
+
+			for(;;){
+				String animal=buff.readLine();
+				String[] attAnimal=animal.split("|");
+				char sexe=attAnimal[2];
+				double poidsInitial=Double.valueOf(attAnimal[3]).doubleValue();
+				double poidsCourrant=Double.valueOf(attAnimal[4]).doubleValue();
+				boolean vivant=Boolean.valueOf(attAnimal[5]);
+				Test test=testIs(attAnimal[1]);
+
+
+
+				}
+		}catch (InstantiationException e){
+			System.out.println("Fini");
+			buff.close();
+		}
+	}
+	private static Test testIs(String s){
+		if(s.equals("Labyrinthe")){
+			Test test=new Labyrinthe(Etude.getDuree());
+			return test;}
+		if(s.equals("Nourriture")){
+			Test test=new Nourriture(Etude.getDuree());
+			return test;}
+		if(s.equals("Images")){
+			Test test=new Images(Etude.getDuree());
+			return test;
+			}
+	}
+}
