@@ -62,6 +62,8 @@ public abstract class Animal {
 				"| condition: "+etat+" "+vie);
 	}
 	void save(BufferedWriter buff)throws IOException{
+		buff.write(this.ID);
+		buff.write("|");
 		buff.write(this.sexe);
 		buff.write("|");
 		buff.write((new Double(this.poidsInitial)).toString());
