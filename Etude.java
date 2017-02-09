@@ -110,12 +110,15 @@ public class Etude{
 							case 5 : System.out.println("Vivant (1) ou Mort (0) ?");
 								double alive = saisie_double();
 								if (alive == 1){
-									s.isVivant()}; break;
+									s.isVivant();
+								}
 								else if (alive == 0){
-									s.setVivant()}; break;
+									s.setVivant();
+								}
 								else{
 									System.out.println("saisie invalide (0 ou 1)");
 								}
+								break;
 							case 6 : System.out.println("Animal toujours vivant? O/N");
 								String rep=saisie_chaine();
 								if(rep.charAt(0)=='o' || rep.charAt(0)=='O'){
@@ -170,12 +173,15 @@ public class Etude{
 							case 5 : System.out.println("Vivant (1) ou Mort (0) ?");
 								double alive = saisie_double();
 								if (alive == 1){
-									so.isVivant()}; break;
+									so.isVivant();
+								}
 								else if (alive == 0){
-									so.setVivant()}; break;
+									so.setVivant();
+									}
 								else{
 									System.out.println("saisie invalide (0 ou 1)");
 								}
+								break ;
 							case 6 : System.out.println("Animal toujours vivant? O/N");
 								String rep=saisie_chaine();
 								if(rep.charAt(0)=='o' || rep.charAt(0)=='O'){
@@ -195,6 +201,7 @@ public class Etude{
 			}
 		}	
 	}
+	
 
 	public static void newJour(){
 		Etude.jour++;
