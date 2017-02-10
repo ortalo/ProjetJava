@@ -167,6 +167,136 @@ public class Etude{
 		q=false;
 	  }
 	}
+	public static void modifierAnimal(Arraylist souris, Arraylist singes){
+		System.out.println("Voulez-vous modifier un singe (1) ou une souris (2)  ?");
+		double choix = saisie_double();
+		if (choix == 1){
+			afficheAnimaux(Etude.singes);
+			System.out.println("Donnez l'ID du singe que vous voulez modifier");
+			String ID=saisie_chaine();
+			for(Enumeration e=Collections.enumeration(singes);e.hasMoreElements();){
+				Singe s= (Singe)e.nextElement();
+				String ID_s=getID(s);
+				if (ID_s.equals(ID)){
+					boolean loop = true;
+					while(loop){
+						System.out.println("Que voulez-vous modifier ?\n") ;
+						System.out.println("1-Son ID");
+						System.out.println("2-Son sexe");
+						System.out.println("3-Son poids initial");
+						System.out.println("4-Son poids courant");
+						System.out.println("5-Son statut (vivant ou mort)");
+						System.out.println("6-Son resultat au test du jour");
+						System.out.println("7-Quitter");
+						int reponse = saisie_entier();
+						switch(reponse){
+							case 1 : System.out.println("Donnez le nouvel ID");
+								String new_ID = saisie_chaine();
+								s.setID(new_ID); break;
+							case 2 : System.out.println("Donnez le nouveau sexe");
+								String new_sex = saisie_chaine();
+								char new_sexe = new_sex.charAt(0);
+								s.setsexe(new_sexe); break;
+							case 3 : System.out.println("Donnez le nouveau poids initial");
+								 double new_poids_initial = saisie_double();
+								s.setpoidsinitial(new_poids_initial); break;
+							case 4 : System.out.println("Donnez le nouveau poids courant");
+								double new_poids_courant = saisie_double();
+								s.setpoidscourant(new_poids_courant); break;
+							case 5 : System.out.println("Vivant (1) ou Mort (0) ?");
+								double alive = saisie_double();
+								if (alive == 1){
+									s.isVivant();
+								}
+								else if (alive == 0){
+									s.setVivant();
+								}
+								else{
+									System.out.println("saisie invalide (0 ou 1)");
+								}
+								break;
+							case 6 : System.out.println("Animal toujours vivant? O/N");
+								String rep=saisie_chaine();
+								if(rep.charAt(0)=='o' || rep.charAt(0)=='O'){
+									System.out.println("Entrez le poids de l'animal: 0.0 ");
+									double p=saisie_double();
+									s.setPoids(p);
+									System.out.println("Enregistrement des resultats au test: ");
+									s.getTest().setResultats();
+								}else{
+									s.setVivant();
+								}
+							case 7: loop=false;break;
+							default: System.out.println("Mauvaise entree");break;
+						}
+					}
+				}
+			}
+		}
+		else if (choix == 2){
+			afficheAnimaux(Etude.souris);
+			System.out.println("Donnez l'ID de la souris que vous voulez modifier");
+			String ID=saisie_chaine();
+			for(Enumeration e=Collections.enumeration(souris);e.hasMoreElements();){
+				Souris so= (Souris)e.nextElement();
+				String ID_so=getID();
+				if (ID_so.equals(ID)){
+					boolean loop = true;
+					while(loop){
+						System.out.println("Que voulez-vous modifier ?\n") ;
+						System.out.println("1-Son ID");
+						System.out.println("2-Son sexe");
+						System.out.println("3-Son poids initial");
+						System.out.println("4-Son poids courant");
+						System.out.println("5-Son statut (vivant ou mort)");
+						System.out.println("6-Son resultat au test du jour");
+						System.out.println("7-Quitter");
+						int reponse = saisie_entier();
+						switch(reponse){
+							case 1 : System.out.println("Donnez le nouvel ID");
+								String new_ID = saisie_chaine();
+								so.setID(new_ID); break;
+							case 2 : System.out.println("Donnez le nouveau sexe");
+								String new_sex = saisie_chaine();
+								char new_sexe = new_sex.charAt(0);
+								so.setsexe(new_sexe); break;
+							case 3 : System.out.println("Donnez le nouveau poids initial");
+								double new_poids_initial = saisie_double();
+								so.setpoidsinitial(new_poids_initial); break;
+							case 4 : System.out.println("Donnez le nouveau poids courant");
+								double new_poids_courant = saisie_double();
+								so.setpoidscourant(new_poids_courant); break;
+							case 5 : System.out.println("Vivant (1) ou Mort (0) ?");
+								double alive = saisie_double();
+								if (alive == 1){
+									so.isVivant();
+								}
+								else if (alive == 0){
+									so.setVivant();
+									}
+								else{
+									System.out.println("saisie invalide (0 ou 1)");
+								}
+								break ;
+							case 6 : System.out.println("Animal toujours vivant? O/N");
+								String rep=saisie_chaine();
+								if(rep.charAt(0)=='o' || rep.charAt(0)=='O'){
+									System.out.println("Entrez le poids de l'animal: 0.0 ");
+									double p=saisie_double();
+									so.setPoids(p);
+									System.out.println("Enregistrement des resultats au test: ");
+									so.getTest().setResultats();
+								}else{
+									so.setVivant();
+								}
+							case 7: loop=false;break;
+							default: System.out.println("Mauvaise entree");break;
+						}
+					}
+				}
+			}
+		}	
+	}
 	public static int getJour(){
 		return Etude.jour;
 	}
