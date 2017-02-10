@@ -12,7 +12,7 @@ public class Etude{
 	public static void main(String[] args){
 		boolean q=true;
 		while(q){
-			System.out.println("Bonjour nous sommes jour "+(Etude.jour+1)+" de la semaine "+(Etude.semaine+1));
+			System.out.println("------Bonjour nous sommes jour "+(Etude.jour+1)+" de la semaine "+(Etude.semaine+1)+"------");
 			if(Etude.jour==Etude.duree){
 				System.out.println("Nous sommes au derner jour de l'experience, voulez vous realiser le bilan? O/N ");
 				String rep=saisie_chaine();
@@ -23,26 +23,53 @@ public class Etude{
 			menu();
 			int choix=saisie_entier();
 			switch(choix){
-				case 1:newJour();break;
-				case 2:addAnimal();break;
-				case 3:bilan();break;
-				case 6:q=false;break;
-				default:System.out.println("Mauvaise entree");
+				case 1:addAnimal();break;
+				case 2:System.out.println("Quelle espèce afficher ? souris(1),singes(2)");
+				       int espece=0;
+				       boolean loop=true;
+				       while(loop){
+						try{
+						espece=saisie_entier();
+						if( choix==1 || choix==2 ){
+							loop=false;
+						}else{System.out.println("Mauvaise entree");}
+				
+						}catch(Exception e){System.out.println("Mauvaise entree");}
+					}
+			       		switch(espece){
+				 		case 1:afficheAnimaux(Etude.souris);break;
+						case 2:afficheAnimaux(Etude.singes);break;
+						default:System.out.println("Mauvaise entree");
+					}
+					break;
+				case 3:newJour();break;
+				case 4:bilan();break;
+				case 5:ecrire(animaux);break;
+				case 7:q=false;break;
+				default:System.out.println("Mauvaise entree");break;
 			}
 		}
 	}
 
 	public static void menu(){
 		System.out.println("------Menu------");
-		System.out.println("1-Nouveau jour (mise a jour des poids et des resultats de chaque animal)");
-		System.out.println("2-Ajouter un animal");
-		System.out.println("3-Lancer bilan");
-		System.out.println("4-Sauver");
-		System.out.println("5-charger");
-		System.out.println("6-Quitter");
+		System.out.println("1-Ajouter un animal");
+		System.out.println("2-Afficher animaux");
+		System.out.println("3-Nouveau jour (mise a jour des poids et des resultats de chaque animal)");
+		System.out.println("4-Lancer bilan");
+		System.out.println("5-Sauver");
+		System.out.println("6-charger");
+		System.out.println("7-Quitter");
 	}
 
 
+	public static void afficheAnimaux(ArrayList animaux){
+		for(Enumeration e=Collections.enumeration(animaux);e.hasMoreElements();){
+			Animal a= (Animal)e.nextElement();
+			System.out.println("------Animal------");
+			System.out.println(a.toString());
+		}
+	}
 
 	public static void newJour(){
 		Etude.jour++;
@@ -52,6 +79,7 @@ public class Etude{
 
 		for(Enumeration e=Collections.enumeration(animaux);e.hasMoreElements();){
 			Animal a=(Animal)e.nextElement();
+			System.out.println("------Animal------");
 			System.out.println(a.toString());
 			if(a.isVivant()){
 				System.out.println("Animal toujours vivant? O/N");
@@ -69,11 +97,33 @@ public class Etude{
 		}
 	}
 	public static void addAnimal(){
+		if( Etude.jour >=0 ){
+			System.out.println("Vous tentez d'ajouter un animal à une etude en cours.");
+		}
+	else{	
+		String espece=null;
+		boolean q=true;
+		while(q){
+			System.out.println("Quelle espece d'animal ?");
+			System.out.println("souris(0), singe(1) ? ");
+			try{
+				espece=saisie_chaine();	
+				if(espece.equals("0") || espece.equals("1")){
+					q=false;
+				}else{
+					System.out.println("Mauvaise entree");
+				}
+
+			}catch(Exception e){
+				System.out.println("Mauvaise entree");
+			}
+		}
+
 		System.out.println("Entrez l'IDentifiant: ");
 		String ID=saisie_chaine();
 		
 		char sexe='u';
-		boolean q=true;
+		q=true;
 		while(q){
 		System.out.println("Entrez le sexe M/F: ");
 		String input=saisie_chaine();
@@ -96,52 +146,156 @@ public class Etude{
 		}
 
 		
-		Test test=new Labyrinthe(duree);
+		Test test=null;
 		q=true;
 		while(q){
 			System.out.println("Quel test doit passer l'animal ? ");
 			System.out.println("Labyrinthe(0), Nourriture(1), ou images(2) ? ");
 			try{
-				int input=saisie_entier();	
-				if(input==0 || input==1 || input==2){
-					switch(input){
-						case 0:test=new Labyrinthe(duree);q=false;break;
-						case 1:test=new Nourriture(duree);q=false;break;
-						case 2:test=new Images(duree);q=false;break;
-					}
+				String input=saisie_chaine();	
+				if(input.equals("0") || input.equals("1") || input.equals("2")){
+					test=testIs(input);q=false;
 				}else{
 					System.out.println("Mauvaise entree");
 				}
 
-			}catch(Exception e){
-				System.out.println("Mauvaise entree");
-			}
-			}
-		q=true;
-		while(q){
-			System.out.println("Quel est l'espece de l'animal ? ");
-			System.out.println("souris(0), singe(1)  ? ");
-			try{
-				int input=saisie_entier();
-				if( input==0 || input==1 ){
-					switch(input){
-						case 0: Animal a=new Souris(ID,sexe,poids,test);
-							animaux.add(a);
-							souris.add(a);
-							q=false;break;
-						case 1: Animal b=new Singe(ID,sexe,poids,test);
-							animaux.add(b);
-							singes.add(b);
-							q=false;break;
-					}
-				}else{
-					System.out.println("Mauvaise entree");
-				}
 			}catch(Exception e){
 				System.out.println("Mauvaise entree");
 			}
 		}
-
+		animalIs(espece,ID,sexe,poids,test);
+		q=false;
+	  }
+	}
+	public static void modifierAnimal(Arraylist souris, Arraylist singes){
+		System.out.println("Voulez-vous modifier un singe (1) ou une souris (2)  ?");
+		double choix = saisie_double();
+		if (choix == 1){
+			afficheAnimaux(Etude.singes);
+			System.out.println("Donnez l'ID du singe que vous voulez modifier");
+			String ID=saisie_chaine();
+			for(Enumeration e=Collections.enumeration(singes);e.hasMoreElements();){
+				Singe s= (Singe)e.nextElement();
+				String ID_s=getID(s);
+				if (ID_s.equals(ID)){
+					boolean loop = true;
+					while(loop){
+						System.out.println("Que voulez-vous modifier ?\n") ;
+						System.out.println("1-Son ID");
+						System.out.println("2-Son sexe");
+						System.out.println("3-Son poids initial");
+						System.out.println("4-Son poids courant");
+						System.out.println("5-Son statut (vivant ou mort)");
+						System.out.println("6-Son resultat au test du jour");
+						System.out.println("7-Quitter");
+						int reponse = saisie_entier();
+						switch(reponse){
+							case 1 : System.out.println("Donnez le nouvel ID");
+								String new_ID = saisie_chaine();
+								s.setID(new_ID); break;
+							case 2 : System.out.println("Donnez le nouveau sexe");
+								String new_sex = saisie_chaine();
+								char new_sexe = new_sex.charAt(0);
+								s.setsexe(new_sexe); break;
+							case 3 : System.out.println("Donnez le nouveau poids initial");
+								 double new_poids_initial = saisie_double();
+								s.setpoidsinitial(new_poids_initial); break;
+							case 4 : System.out.println("Donnez le nouveau poids courant");
+								double new_poids_courant = saisie_double();
+								s.setpoidscourant(new_poids_courant); break;
+							case 5 : System.out.println("Vivant (1) ou Mort (0) ?");
+								double alive = saisie_double();
+								if (alive == 1){
+									s.isVivant();
+								}
+								else if (alive == 0){
+									s.setVivant();
+								}
+								else{
+									System.out.println("saisie invalide (0 ou 1)");
+								}
+								break;
+							case 6 : System.out.println("Animal toujours vivant? O/N");
+								String rep=saisie_chaine();
+								if(rep.charAt(0)=='o' || rep.charAt(0)=='O'){
+									System.out.println("Entrez le poids de l'animal: 0.0 ");
+									double p=saisie_double();
+									s.setPoids(p);
+									System.out.println("Enregistrement des resultats au test: ");
+									s.getTest().setResultats();
+								}else{
+									s.setVivant();
+								}
+							case 7: loop=false;break;
+							default: System.out.println("Mauvaise entree");break;
+						}
+					}
+				}
+			}
+		}
+		else if (choix == 2){
+			afficheAnimaux(Etude.souris);
+			System.out.println("Donnez l'ID de la souris que vous voulez modifier");
+			String ID=saisie_chaine();
+			for(Enumeration e=Collections.enumeration(souris);e.hasMoreElements();){
+				Souris so= (Souris)e.nextElement();
+				String ID_so=getID();
+				if (ID_so.equals(ID)){
+					boolean loop = true;
+					while(loop){
+						System.out.println("Que voulez-vous modifier ?\n") ;
+						System.out.println("1-Son ID");
+						System.out.println("2-Son sexe");
+						System.out.println("3-Son poids initial");
+						System.out.println("4-Son poids courant");
+						System.out.println("5-Son statut (vivant ou mort)");
+						System.out.println("6-Son resultat au test du jour");
+						System.out.println("7-Quitter");
+						int reponse = saisie_entier();
+						switch(reponse){
+							case 1 : System.out.println("Donnez le nouvel ID");
+								String new_ID = saisie_chaine();
+								so.setID(new_ID); break;
+							case 2 : System.out.println("Donnez le nouveau sexe");
+								String new_sex = saisie_chaine();
+								char new_sexe = new_sex.charAt(0);
+								so.setsexe(new_sexe); break;
+							case 3 : System.out.println("Donnez le nouveau poids initial");
+								double new_poids_initial = saisie_double();
+								so.setpoidsinitial(new_poids_initial); break;
+							case 4 : System.out.println("Donnez le nouveau poids courant");
+								double new_poids_courant = saisie_double();
+								so.setpoidscourant(new_poids_courant); break;
+							case 5 : System.out.println("Vivant (1) ou Mort (0) ?");
+								double alive = saisie_double();
+								if (alive == 1){
+									so.isVivant();
+								}
+								else if (alive == 0){
+									so.setVivant();
+									}
+								else{
+									System.out.println("saisie invalide (0 ou 1)");
+								}
+								break ;
+							case 6 : System.out.println("Animal toujours vivant? O/N");
+								String rep=saisie_chaine();
+								if(rep.charAt(0)=='o' || rep.charAt(0)=='O'){
+									System.out.println("Entrez le poids de l'animal: 0.0 ");
+									double p=saisie_double();
+									so.setPoids(p);
+									System.out.println("Enregistrement des resultats au test: ");
+									so.getTest().setResultats();
+								}else{
+									so.setVivant();
+								}
+							case 7: loop=false;break;
+							default: System.out.println("Mauvaise entree");break;
+						}
+					}
+				}
+			}
+		}	
 	}
 	public static int getJour(){
 		return Etude.jour;
@@ -158,7 +312,7 @@ public class Etude{
 			}
 		}
 	}
-	private static double getAppMoy(ArrayList animaux){
+	public static double getAppMoy(ArrayList animaux){
 			int nbElements=0;
 			double sum=0.0;
 			for(Enumeration e=Collections.enumeration(animaux);e.hasMoreElements();){
@@ -219,5 +373,109 @@ public class Etude{
 			}
 		catch(IOException e){return 0;}
 	}
-}
+	public static void ecrire (ArrayList animaux){
+		try{
+		BufferedWriter buffEtude=new BufferedWriter
+		(new FileWriter("savedEtude.txt"));
+		buffEtude.write((new Integer(Etude.jour)).toString()+"|"+
+				(new Integer(Etude.semaine)).toString()+"|"+(new Integer(Etude.duree)).toString());
+		buffEtude.flush();
+		buffEtude.close();
 
+		BufferedWriter buff=new BufferedWriter
+		(new FileWriter("savedAnimals.txt"));
+		buff.newLine();
+		for(Enumeration e = Collections.enumeration(animaux);e.hasMoreElements();){
+			Animal courant = (Animal)e.nextElement();
+			courant.save(buff);
+			buff.newLine();
+		}
+		buff.flush();
+		buff.close();
+		}catch(IOException e){System.out.println("Erreur de sauvegarde");}
+	}
+
+	public static void lire (ArrayList animaux,ArrayList singes,ArrayList souris)throws FileNotFoundException{
+		BufferedReader buffEtude=new BufferedReader(new FileReader("savedEtude.txt"));
+		BufferedReader buff=new BufferedReader(new FileReader("savedAnimals.txt"));
+		try {
+			String etude = buffEtude.readLine();
+			String[] etudeVals=etude.split("|");
+			int jour= Integer.valueOf(etudeVals[0]).intValue();
+			Etude.jour=jour;
+			int semaine= Integer.valueOf(etudeVals[1]).intValue();
+			Etude.semaine=semaine;
+			int duree= Integer.valueOf(etudeVals[2]).intValue();
+			Etude.duree=duree;
+			buffEtude.close();
+
+			for(;;){
+				String animal=buff.readLine();
+				String[] attAnimal=animal.split("|");
+				String ID=attAnimal[2].charAt(0);
+				char sexe=attAnimal[3].charAt(0);
+				double poidsInitial=Double.valueOf(attAnimal[4]).doubleValue();
+				double poidsCourrant=Double.valueOf(attAnimal[5]).doubleValue();
+				boolean vivant=Boolean.valueOf(attAnimal[6]);
+				Test test=testIs(attAnimal[1]);
+				//test.lire(attAnimal[6]);
+				//animalIs(espece,ID,sexe,poids,test);
+				//
+				buff.close();
+				}
+		}catch (Exception e){
+			System.out.println("Fini");
+		}
+	}
+	public static Test testIs(String s){
+		Test test=null;
+		if(s.equals("Labyrinthe")||s.equals("0")){
+			test=new Labyrinthe(Etude.duree);
+		}
+		if(s.equals("Nourriture")||s.equals("1")){
+			test=new Nourriture(Etude.duree);
+		}
+		if(s.equals("Images")||s.equals("2")){
+			test=new Images(Etude.duree);
+			}
+		return test;
+	}
+	public static void animalIs(String s,String ID,char sexe,double poids,Test test){
+		Animal a=null;
+		if(s.equals("0")){
+			a=new Souris(ID,sexe,poids,test);
+			System.out.println(a.toString());
+			if(areYouSure()){
+				Etude.souris.add(a);
+				Etude.animaux.add(a);
+			}
+		}else if(s.equals("1")){
+			a=new Singe(ID,sexe,poids,test);
+			System.out.println(a.toString());
+			if(areYouSure()){
+				Etude.singes.add(a);
+				Etude.animaux.add(a);
+			}
+		}
+	}
+	public static boolean areYouSure(){
+		boolean output=false;
+		System.out.println("Etes vous sur? O/N");
+		boolean question=true;
+		while(question){
+			try{
+				String reponse=saisie_chaine();
+				if(reponse.equalsIgnoreCase("O")){
+					output= true;question=false;
+				}else if(reponse.equalsIgnoreCase("N")){
+					output= false;question=false;
+				}else{
+					System.out.println("Saisir O ou N");
+				}	
+			}catch(Exception e){
+					System.out.println("Mauvaise entree");
+				}
+		}
+		return output;
+	}
+}
