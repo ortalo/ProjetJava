@@ -1,3 +1,5 @@
+import java.io.BufferedWriter;
+import java.io.IOException;
 public abstract class Animal {
 	protected String ID;
 	protected char sexe;
@@ -35,6 +37,9 @@ public abstract class Animal {
 
 	public void setPoids(double pPoids){
 		this.poidsCourrant=pPoids;
+		this.setStress();
+	}
+	public void setStress(){
 		if( (this.poidsInitial-this.poidsCourrant) > 0.1*poidsInitial){
 			this.stress=true;
 		}else{
@@ -55,10 +60,21 @@ public abstract class Animal {
 			etat=" serein ";
 		}
 
-		return("| ID: "+this.ID+"| sexe:"+this.sexe+"| poids initial: "+
+		return("test: "+this.test.getType()+"| ID: "+this.ID+"| sexe:"+this.sexe+"| poids initial: "+
 				this.poidsInitial+"| poids actuel: "+this.poidsCourrant+
 				"| condition: "+etat+" "+vie);
-	}	
+	}
+	void save(BufferedWriter buff)throws IOException{
+		buff.write(this.ID);
+		buff.write("-");
+		buff.write(this.sexe);
+		buff.write("-");
+		buff.write((new Double(this.poidsInitial)).toString());
+		buff.write("-");
+		buff.write((new Double(this.poidsCourrant)).toString());
+		buff.write("-");
+		if(this.vivant){buff.write("true");}else{buff.write("false");}
+		buff.write("-");
+		this.test.save(buff);
+	}
 }
-
-
