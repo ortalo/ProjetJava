@@ -199,6 +199,7 @@ public class Etude{
 		System.out.println(getAppMoy(array));
 		}
 		bestGroup(animaux);
+		compareStress();
 
 	}
 	public static double getAppMoy(ArrayList group){
@@ -211,6 +212,29 @@ public class Etude{
 			}
 			return (double)sum/(double)nbElements;
 	}
+	public static void compareStress(){
+		ArrayList<Animal> stress = new ArrayList<Animal>();
+		ArrayList<Animal> noStress = new ArrayList<Animal>();
+		for(Enumeration ea=Collections.enumeration(animaux);ea.hasMoreElements();){
+			ArrayList array=(ArrayList)ea.nextElement();
+		
+		for(Enumeration e=Collections.enumeration(array);e.hasMoreElements();){
+			Animal a=(Animal)e.nextElement();
+			if(a.isStress()){
+				stress.add(a);
+			}else{
+				noStress.add(a);
+			}
+		}
+		}
+		System.out.println("\nApprentissage moyen des animaux stréssés:");
+		System.out.println(getAppMoy(stress));
+		System.out.println("Apprentissage moyen des animaux non stréssés:");
+		System.out.println(getAppMoy(noStress));
+
+
+	}
+
 	public static void bestGroup(ArrayList animaux){
 		ArrayList best=null;
 		double maxApp=0.0;
