@@ -56,7 +56,14 @@ public class Nourriture implements Test{
 		}
 		}catch(IOException e){System.out.println("Erreur de sauvegarde");}
 	}
+	public void lire(String resultats){
+		String[] cache_reussite=resultats.split(",");
+		for(int i=0;i<cache_reussite.length;i++){
+			String[] essai=cache_reussite[i].split(":");
+			double nbCachettes= Double.valueOf(essai[0]);
+			boolean reussite= Boolean.valueOf(essai[1]);
+			this.cachettes.add(nbCachettes);
+			this.succes.add(reussite);
+		}
+	}
 }
-
-
-

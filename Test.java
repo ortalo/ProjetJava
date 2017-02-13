@@ -5,5 +5,6 @@ public interface Test{
 	public int getBestDay(int semaine);
 	public String getType();
 	public void save(BufferedWriter buff);
+	public void lire(String input);
 }
 

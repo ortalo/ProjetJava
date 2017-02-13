@@ -23,8 +23,28 @@ public abstract class Animal {
 		return this.test;
 	}
 
+	public String getID(){
+		return this.ID;
+	}
+
 	public boolean isVivant(){
 		return this.vivant;
+	}
+
+	public void setID(String ID){
+		this.ID=ID;
+	}
+
+	public void setSexe(char sexe){
+		this.sexe=sexe;
+	}
+	
+	public void setTest(Test test){
+		this.test=test;
+	}
+	
+	public void setPoidsInitial(double poidsInitial){
+		this.poidsInitial=poidsInitial;
 	}
 
 	public void setVivant(){
@@ -37,6 +57,9 @@ public abstract class Animal {
 
 	public void setPoids(double pPoids){
 		this.poidsCourrant=pPoids;
+		this.setStress();
+	}
+	public void setStress(){
 		if( (this.poidsInitial-this.poidsCourrant) > 0.1*poidsInitial){
 			this.stress=true;
 		}else{
@@ -57,21 +80,21 @@ public abstract class Animal {
 			etat=" serein ";
 		}
 
-		return("| ID: "+this.ID+"| sexe:"+this.sexe+"| poids initial: "+
+		return("test: "+this.test.getType()+"| ID: "+this.ID+"| sexe:"+this.sexe+"| poids initial: "+
 				this.poidsInitial+"| poids actuel: "+this.poidsCourrant+
 				"| condition: "+etat+" "+vie);
 	}
 	void save(BufferedWriter buff)throws IOException{
 		buff.write(this.ID);
-		buff.write("|");
+		buff.write("-");
 		buff.write(this.sexe);
-		buff.write("|");
+		buff.write("-");
 		buff.write((new Double(this.poidsInitial)).toString());
-		buff.write("|");
+		buff.write("-");
 		buff.write((new Double(this.poidsCourrant)).toString());
-		buff.write("|");
+		buff.write("-");
 		if(this.vivant){buff.write("true");}else{buff.write("false");}
-		buff.write("|");
+		buff.write("-");
 		this.test.save(buff);
 	}
 }

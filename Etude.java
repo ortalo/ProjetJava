@@ -2,19 +2,21 @@ import java.io.*;
 import java.util.*;
 
 public class Etude{
-	private static ArrayList animaux=new ArrayList();
-	private static ArrayList souris=new ArrayList();
-	private static ArrayList singes=new ArrayList();
+	private static ArrayList<List<Animal>> animaux = new ArrayList<List<Animal>>();
+	private static ArrayList<Animal> singes = new ArrayList<Animal>();
+	private static ArrayList<Animal> souris = new ArrayList<Animal>();
 	private static int jour=-1;
 	private static int semaine=0;
 	private static int duree=4;
 	
 	public static void main(String[] args){
+		animaux.add(souris);
+		animaux.add(singes);
 		boolean q=true;
 		while(q){
-			System.out.println("------Bonjour nous sommes jour "+(Etude.jour+1)+" de la semaine "+(Etude.semaine+1)+"------");
+			System.out.println("\n------Jour "+(Etude.jour+1)+" de la semaine "+(Etude.semaine+1)+"------");
 			if(Etude.jour==Etude.duree){
-				System.out.println("Nous sommes au derner jour de l'experience, voulez vous realiser le bilan? O/N ");
+				System.out.println("\nNous sommes au derner jour de l'experience, voulez vous realiser le bilan? O/N ");
 				String rep=saisie_chaine();
 				if(rep.charAt(0)=='o' || rep.charAt(0)=='O'){
 					bilan();
@@ -24,91 +26,95 @@ public class Etude{
 			int choix=saisie_entier();
 			switch(choix){
 				case 1:addAnimal();break;
-				case 2:System.out.println("Quelle espèce afficher ? souris(1),singes(2)");
+				case 2:System.out.println("\nQuelle espèce afficher ? souris(0),singes(1)");
 				       int espece=0;
 				       boolean loop=true;
 				       while(loop){
 						try{
 						espece=saisie_entier();
-						if( choix==1 || choix==2 ){
+						if( espece==0 || espece==1 ){
 							loop=false;
 						}else{System.out.println("Mauvaise entree");}
 				
 						}catch(Exception e){System.out.println("Mauvaise entree");}
 					}
-			       		switch(espece){
-				 		case 1:afficheAnimaux(Etude.souris);break;
-						case 2:afficheAnimaux(Etude.singes);break;
-						default:System.out.println("Mauvaise entree");
-					}
-					break;
-				case 3:newJour();break;
-				case 4:bilan();break;
-				case 5:ecrire(animaux);break;
-				case 7:q=false;break;
+			       		afficheAnimaux((ArrayList)animaux.get(espece));break;
+			     case 3:modifierAnimal(animaux);break;
+				case 4:newJour();break;
+				case 5:bilan();break;
+				case 6:ecrire(animaux);break;
+				case 7:try{
+					       lire(animaux);break;
+				}catch(FileNotFoundException e){
+					System.out.println(e);break;
+				}
+				case 8:q=false;break;
 				default:System.out.println("Mauvaise entree");break;
 			}
 		}
 	}
 
 	public static void menu(){
-		System.out.println("------Menu------");
+		System.out.println("\n------Menu------");
 		System.out.println("1-Ajouter un animal");
 		System.out.println("2-Afficher animaux");
-		System.out.println("3-Nouveau jour (mise a jour des poids et des resultats de chaque animal)");
-		System.out.println("4-Lancer bilan");
-		System.out.println("5-Sauver");
-		System.out.println("6-charger");
-		System.out.println("7-Quitter");
+		System.out.println("3-Modifier un animal");
+		System.out.println("4-Nouveau jour (mise a jour des poids et des resultats de chaque animal)");
+		System.out.println("5-Lancer bilan");
+		System.out.println("6-Sauver");
+		System.out.println("7-charger");
+		System.out.println("8-Quitter");
 	}
 
 
-	public static void afficheAnimaux(ArrayList animaux){
-		for(Enumeration e=Collections.enumeration(animaux);e.hasMoreElements();){
+	public static void afficheAnimaux(ArrayList espece){
+		for(Enumeration e=Collections.enumeration(espece);e.hasMoreElements();){
 			Animal a= (Animal)e.nextElement();
 			System.out.println("------Animal------");
 			System.out.println(a.toString());
+			}
 		}
-	}
 
 	public static void newJour(){
 		Etude.jour++;
 		if( Etude.jour > 4 ){
 			Etude.semaine++;
 		}
-
-		for(Enumeration e=Collections.enumeration(animaux);e.hasMoreElements();){
+		for(Enumeration ea=Collections.enumeration(animaux);ea.hasMoreElements();){
+			ArrayList array=(ArrayList)ea.nextElement();
+		
+		for(Enumeration e=Collections.enumeration(array);e.hasMoreElements();){
 			Animal a=(Animal)e.nextElement();
 			System.out.println("------Animal------");
 			System.out.println(a.toString());
 			if(a.isVivant()){
-				System.out.println("Animal toujours vivant? O/N");
+				System.out.println("\nAnimal toujours vivant? O/N");
 				String rep=saisie_chaine();
 				if(rep.charAt(0)=='o' || rep.charAt(0)=='O'){
-					System.out.println("Entrez le poids de l'animal: 0.0 ");
+					System.out.println("\nEntrez le poids de l'animal: 0.0 ");
 					double p=saisie_double();
 					a.setPoids(p);
-					System.out.println("Enregistrement des resultats au test: ");
+					System.out.println("\nEnregistrement des resultats au test: ");
 					a.getTest().setResultats();
 				}else{
 					a.setVivant();
 				}
 			}
-		}
+		}}
 	}
 	public static void addAnimal(){
 		if( Etude.jour >=0 ){
-			System.out.println("Vous tentez d'ajouter un animal à une etude en cours.");
+			System.out.println("\nVous tentez d'ajouter un animal à une etude en cours.");
 		}
 	else{	
 		String espece=null;
 		boolean q=true;
 		while(q){
-			System.out.println("Quelle espece d'animal ?");
-			System.out.println("souris(0), singe(1) ? ");
+			System.out.println("\nQuel groupe d'animal ?");
+			System.out.println("\nsouris Labyrinthe(0),souris Nourriture(1) singe(2) ? ");
 			try{
 				espece=saisie_chaine();	
-				if(espece.equals("0") || espece.equals("1")){
+				if(espece.equals("0") || espece.equals("1")|| espece.equals("2")){
 					q=false;
 				}else{
 					System.out.println("Mauvaise entree");
@@ -144,8 +150,9 @@ public class Etude{
 			System.out.println("Mauvaise entree");
 		}
 		}
-
 		
+
+		/*Pour modularité future, il sera possible de demander le test à passer. Il sera envoyé en parametre à AnimalIs()
 		Test test=null;
 		q=true;
 		while(q){
@@ -163,147 +170,104 @@ public class Etude{
 				System.out.println("Mauvaise entree");
 			}
 		}
-		animalIs(espece,ID,sexe,poids,test);
-		q=false;
+		Pour le moment, etant donné que chaque groupe dispose d'un test specifique la variable espece (groupe) nous permet
+		de choisir le test correspondant, en effet les indices associés à espece et test concordent */
+		Test test=testIs(espece);
+		System.out.println("espece: "+espece+" ID: "+ID+" sexe: "+sexe+" poids: "+poids+"test : "+test.getType());
+		if(areYouSure()){
+			animalIs(espece,ID,sexe,poids,poids,true,test);
+		}else{
+			System.out.println("Annulation, animal non ecrit");
+		}
 	  }
 	}
-	public static void modifierAnimal(Arraylist souris, Arraylist singes){
-		System.out.println("Voulez-vous modifier un singe (1) ou une souris (2)  ?");
-		double choix = saisie_double();
-		if (choix == 1){
-			afficheAnimaux(Etude.singes);
-			System.out.println("Donnez l'ID du singe que vous voulez modifier");
-			String ID=saisie_chaine();
-			for(Enumeration e=Collections.enumeration(singes);e.hasMoreElements();){
-				Singe s= (Singe)e.nextElement();
-				String ID_s=getID(s);
-				if (ID_s.equals(ID)){
-					boolean loop = true;
-					while(loop){
-						System.out.println("Que voulez-vous modifier ?\n") ;
-						System.out.println("1-Son ID");
-						System.out.println("2-Son sexe");
-						System.out.println("3-Son poids initial");
-						System.out.println("4-Son poids courant");
-						System.out.println("5-Son statut (vivant ou mort)");
-						System.out.println("6-Son resultat au test du jour");
-						System.out.println("7-Quitter");
-						int reponse = saisie_entier();
-						switch(reponse){
-							case 1 : System.out.println("Donnez le nouvel ID");
-								String new_ID = saisie_chaine();
-								s.setID(new_ID); break;
-							case 2 : System.out.println("Donnez le nouveau sexe");
-								String new_sex = saisie_chaine();
-								char new_sexe = new_sex.charAt(0);
-								s.setsexe(new_sexe); break;
-							case 3 : System.out.println("Donnez le nouveau poids initial");
-								 double new_poids_initial = saisie_double();
-								s.setpoidsinitial(new_poids_initial); break;
-							case 4 : System.out.println("Donnez le nouveau poids courant");
-								double new_poids_courant = saisie_double();
-								s.setpoidscourant(new_poids_courant); break;
-							case 5 : System.out.println("Vivant (1) ou Mort (0) ?");
-								double alive = saisie_double();
-								if (alive == 1){
-									s.isVivant();
-								}
-								else if (alive == 0){
-									s.setVivant();
-								}
-								else{
-									System.out.println("saisie invalide (0 ou 1)");
-								}
-								break;
-							case 6 : System.out.println("Animal toujours vivant? O/N");
-								String rep=saisie_chaine();
-								if(rep.charAt(0)=='o' || rep.charAt(0)=='O'){
-									System.out.println("Entrez le poids de l'animal: 0.0 ");
-									double p=saisie_double();
-									s.setPoids(p);
-									System.out.println("Enregistrement des resultats au test: ");
-									s.getTest().setResultats();
-								}else{
-									s.setVivant();
-								}
-							case 7: loop=false;break;
-							default: System.out.println("Mauvaise entree");break;
-						}
+	
+	public static void modifierAnimal(ArrayList animaux){
+		System.out.println("\n A quelle espèce appartient l'animal que voulez modifier ? souris(0),singes(1)");
+		int espece=0;
+		boolean loop1=true;
+		while(loop1){
+			try{
+			espece=saisie_entier();
+			if( espece==0 || espece==1 ){
+				loop1=false;
+			}else{System.out.println("Mauvaise entree");}
+			}catch(Exception e){System.out.println("Mauvaise entree");}
+		}
+		afficheAnimaux((ArrayList)animaux.get(espece));
+		System.out.println("Donnez l'ID de l'animal que vous voulez modifier dans la liste");
+		String ID=saisie_chaine();
+		for(Enumeration e=Collections.enumeration((ArrayList)animaux.get(espece));e.hasMoreElements();){
+			Animal s= (Animal)e.nextElement();
+			String ID_s=s.getID();
+			if (ID_s.equals(ID)){
+				boolean loop = true;
+				while(loop){
+					System.out.println("Que voulez-vous modifier ?\n") ;
+					System.out.println("1-Son ID");
+					System.out.println("2-Son sexe");
+					System.out.println("3-Son poid initial");
+					System.out.println("4-Son poid courant");
+					System.out.println("5-Son statut (vivant ou mort)");
+					System.out.println("6-Son resultat au test du jour");
+					System.out.println("7-Quitter");
+					int reponse = saisie_entier();
+					switch(reponse){
+						case 1 : System.out.println("Donnez le nouvel ID");
+							String new_ID = saisie_chaine();
+							s.setID(new_ID); break;
+						case 2 : System.out.println("Donnez le nouveau sexe");
+							String new_sex = saisie_chaine();
+							char new_sexe = new_sex.charAt(0);
+							s.setSexe(new_sexe); break;
+						case 3 : System.out.println("Donnez le nouveau poids initial");
+							double new_poids_initial = saisie_double();
+							s.setPoidsInitial(new_poids_initial); break;
+						case 4 : System.out.println("Donnez le nouveau poids courant");
+							double new_poids_courant = saisie_double();
+							s.setPoids(new_poids_courant); break;
+						case 5 : System.out.println("Vivant (1) ou Mort (0) ?");
+							double alive = saisie_double();
+							if (alive == 1){
+								s.isVivant();
+							}
+							else if (alive == 0){
+								s.setVivant();
+							}
+							else{
+								System.out.println("saisie invalide (0 ou 1)");
+							}
+							break;
+						case 6 : System.out.println("Animal toujours vivant? O/N");
+							String rep=saisie_chaine();
+							if(rep.charAt(0)=='o' || rep.charAt(0)=='O'){
+								System.out.println("Entrez le poids de l'animal: 0.0 ");
+								double p=saisie_double();
+								s.setPoids(p);
+								System.out.println("Enregistrement des resultats au test: ");
+								s.getTest().setResultats();
+							}else{
+								s.setVivant();
+							}
+						case 7: loop=false;break;
+						default: System.out.println("Mauvaise entree");break;
 					}
 				}
 			}
 		}
-		else if (choix == 2){
-			afficheAnimaux(Etude.souris);
-			System.out.println("Donnez l'ID de la souris que vous voulez modifier");
-			String ID=saisie_chaine();
-			for(Enumeration e=Collections.enumeration(souris);e.hasMoreElements();){
-				Souris so= (Souris)e.nextElement();
-				String ID_so=getID();
-				if (ID_so.equals(ID)){
-					boolean loop = true;
-					while(loop){
-						System.out.println("Que voulez-vous modifier ?\n") ;
-						System.out.println("1-Son ID");
-						System.out.println("2-Son sexe");
-						System.out.println("3-Son poids initial");
-						System.out.println("4-Son poids courant");
-						System.out.println("5-Son statut (vivant ou mort)");
-						System.out.println("6-Son resultat au test du jour");
-						System.out.println("7-Quitter");
-						int reponse = saisie_entier();
-						switch(reponse){
-							case 1 : System.out.println("Donnez le nouvel ID");
-								String new_ID = saisie_chaine();
-								so.setID(new_ID); break;
-							case 2 : System.out.println("Donnez le nouveau sexe");
-								String new_sex = saisie_chaine();
-								char new_sexe = new_sex.charAt(0);
-								so.setsexe(new_sexe); break;
-							case 3 : System.out.println("Donnez le nouveau poids initial");
-								double new_poids_initial = saisie_double();
-								so.setpoidsinitial(new_poids_initial); break;
-							case 4 : System.out.println("Donnez le nouveau poids courant");
-								double new_poids_courant = saisie_double();
-								so.setpoidscourant(new_poids_courant); break;
-							case 5 : System.out.println("Vivant (1) ou Mort (0) ?");
-								double alive = saisie_double();
-								if (alive == 1){
-									so.isVivant();
-								}
-								else if (alive == 0){
-									so.setVivant();
-									}
-								else{
-									System.out.println("saisie invalide (0 ou 1)");
-								}
-								break ;
-							case 6 : System.out.println("Animal toujours vivant? O/N");
-								String rep=saisie_chaine();
-								if(rep.charAt(0)=='o' || rep.charAt(0)=='O'){
-									System.out.println("Entrez le poids de l'animal: 0.0 ");
-									double p=saisie_double();
-									so.setPoids(p);
-									System.out.println("Enregistrement des resultats au test: ");
-									so.getTest().setResultats();
-								}else{
-									so.setVivant();
-								}
-							case 7: loop=false;break;
-							default: System.out.println("Mauvaise entree");break;
-						}
-					}
-				}
-			}
-		}	
 	}
+
+	
 	public static int getJour(){
 		return Etude.jour;
 	}
 	public static void bilan(){
-		for(Enumeration e=Collections.enumeration(animaux);e.hasMoreElements();){
+		for(Enumeration ea=Collections.enumeration(animaux);ea.hasMoreElements();){
+			ArrayList array=(ArrayList)ea.nextElement();
+			System.out.println("------------------------Group------------------------");
+		for(Enumeration e=Collections.enumeration(array);e.hasMoreElements();){
 			Animal a=(Animal)e.nextElement();
-			System.out.println("------------Animal---------- ");
+			System.out.println("\n------------Animal---------- ");
 			System.out.println(a.toString());
 			System.out.println("Progression: "+a.getTest().apprentissage(Etude.semaine)+" %");
 			System.out.println("Meilleur jour: "+a.getTest().getBestDay(Etude.semaine));
@@ -311,24 +275,61 @@ public class Etude{
 				System.out.println("stressé");
 			}
 		}
+		System.out.println("\nApprentissage moyen du groupe:");
+		System.out.println(getAppMoy(array));
+		}
+		bestGroup(animaux);
+		compareStress();
+
 	}
-	public static double getAppMoy(ArrayList animaux){
+	public static double getAppMoy(ArrayList group){
 			int nbElements=0;
 			double sum=0.0;
-			for(Enumeration e=Collections.enumeration(animaux);e.hasMoreElements();){
+			for(Enumeration e=Collections.enumeration(group);e.hasMoreElements();){
 				Animal a=(Animal)e.nextElement();
 				nbElements++;
 				sum+=a.getTest().apprentissage(Etude.semaine);
 			}
 			return (double)sum/(double)nbElements;
 	}
-	public static ArrayList bestGroup(ArrayList souris, ArrayList singes){
+	public static void compareStress(){
+		ArrayList<Animal> stress = new ArrayList<Animal>();
+		ArrayList<Animal> noStress = new ArrayList<Animal>();
+		for(Enumeration ea=Collections.enumeration(animaux);ea.hasMoreElements();){
+			ArrayList array=(ArrayList)ea.nextElement();
 		
-		if (getAppMoy(souris) > getAppMoy(singes)){
-			return souris;
-		}else{
-			return singes;
+		for(Enumeration e=Collections.enumeration(array);e.hasMoreElements();){
+			Animal a=(Animal)e.nextElement();
+			if(a.isStress()){
+				stress.add(a);
+			}else{
+				noStress.add(a);
+			}
 		}
+		}
+		System.out.println("\nApprentissage moyen des animaux stréssés:");
+		System.out.println(getAppMoy(stress));
+		System.out.println("Apprentissage moyen des animaux non stréssés:");
+		System.out.println(getAppMoy(noStress));
+
+
+	}
+
+	public static void bestGroup(ArrayList animaux){
+		ArrayList best=null;
+		double maxApp=0.0;
+		for(Enumeration e=Collections.enumeration(animaux);e.hasMoreElements();){
+			ArrayList group=(ArrayList)e.nextElement();
+			double res= getAppMoy(group);
+			if(res>maxApp){	
+				maxApp=res;
+				best=group;
+			}
+		}
+		System.out.println("\nLe meileur group est :");
+		afficheAnimaux(best);
+		System.out.println("\nApprentissage moyen :");
+		System.out.println(maxApp);
 	}
 
 	public static Animal bestOf(ArrayList animaux){
@@ -377,58 +378,94 @@ public class Etude{
 		try{
 		BufferedWriter buffEtude=new BufferedWriter
 		(new FileWriter("savedEtude.txt"));
-		buffEtude.write((new Integer(Etude.jour)).toString()+"|"+
-				(new Integer(Etude.semaine)).toString()+"|"+(new Integer(Etude.duree)).toString());
+		buffEtude.write((new Integer( Etude.jour + 1 )).toString()+"-"+// le +1 a Etude. jour permet de sauver le -1 eventuel en 0, car										// -1 fait buger le "valueOf(int) dans lire()
+
+				(new Integer(Etude.semaine)).toString()+"-"+(new Integer(Etude.duree)).toString());
 		buffEtude.flush();
 		buffEtude.close();
 
 		BufferedWriter buff=new BufferedWriter
 		(new FileWriter("savedAnimals.txt"));
-		buff.newLine();
-		for(Enumeration e = Collections.enumeration(animaux);e.hasMoreElements();){
-			Animal courant = (Animal)e.nextElement();
-			courant.save(buff);
-			buff.newLine();
+
+		for(Enumeration ea = Collections.enumeration(animaux) ; ea.hasMoreElements() ; ){
+			ArrayList array = (ArrayList)ea.nextElement() ;
+			for(Enumeration e = Collections.enumeration(array) ; e.hasMoreElements() ; ){
+				Animal courant = (Animal)e.nextElement();
+				courant.save(buff);
+				buff.newLine();
+			}
 		}
 		buff.flush();
 		buff.close();
 		}catch(IOException e){System.out.println("Erreur de sauvegarde");}
 	}
 
-	public static void lire (ArrayList animaux,ArrayList singes,ArrayList souris)throws FileNotFoundException{
-		BufferedReader buffEtude=new BufferedReader(new FileReader("savedEtude.txt"));
-		BufferedReader buff=new BufferedReader(new FileReader("savedAnimals.txt"));
-		try {
-			String etude = buffEtude.readLine();
-			String[] etudeVals=etude.split("|");
-			int jour= Integer.valueOf(etudeVals[0]).intValue();
-			Etude.jour=jour;
-			int semaine= Integer.valueOf(etudeVals[1]).intValue();
-			Etude.semaine=semaine;
-			int duree= Integer.valueOf(etudeVals[2]).intValue();
-			Etude.duree=duree;
-			buffEtude.close();
-
+	public static void lire (ArrayList animaux)throws FileNotFoundException{
+		boolean	q=true;
+		while(q){
+			System.out.println("\n Charger Etude (mise a jour des dates, duree...) (0) ou animaux (1) ?");
+			try{
+				double input=saisie_double();	
+				if(input == 0){
+			//--------------------Lire etude-----------------------//	
+					BufferedReader buffEtude=new BufferedReader(new FileReader("savedEtude.txt"));
+					String etude=null;String[] etudeVals=null;int jour=0;int duree=0;
+					try {
+						etude = buffEtude.readLine();
+						}catch (IOException e){System.out.println(e);}
+					etudeVals=etude.split("-");
+					jour= (Integer.valueOf((String)etudeVals[0]).intValue())-1;
+					Etude.jour=jour;
+					semaine= Integer.valueOf((String)etudeVals[1]).intValue();
+					Etude.semaine=semaine;
+					try {
+						duree= Integer.valueOf((String)etudeVals[2]).intValue();
+						Etude.duree=duree;
+						buffEtude.close();
+					}catch (Exception e){
+						System.out.println("Impossible de lire le fichier d'etude");
+					}
+					q=false;
+			//--------------------Lire Animaux-----------------------//	
+				
+		}else if(input == 1){
+		
+			BufferedReader buff=new BufferedReader(new FileReader("savedAnimals.txt"));
+			try{	
 			for(;;){
-				String animal=buff.readLine();
-				String[] attAnimal=animal.split("|");
-				String ID=attAnimal[2].charAt(0);
-				char sexe=attAnimal[3].charAt(0);
-				double poidsInitial=Double.valueOf(attAnimal[4]).doubleValue();
-				double poidsCourrant=Double.valueOf(attAnimal[5]).doubleValue();
-				boolean vivant=Boolean.valueOf(attAnimal[6]);
+				String a="";String espece="";String ID=""; 
+				char sexe='u'; double poidsInitial=0.0;double poidsCourrant=0.0;boolean vivant=true;
+				try{
+				a=buff.readLine();
+				}catch (IOException e){System.out.println(e);}
+				String[] attAnimal=a.split("-");
+				espece=attAnimal[0];
+				ID=attAnimal[2];
+				sexe=attAnimal[3].charAt(0);
+				poidsInitial=Double.valueOf(attAnimal[4]).doubleValue();
+				poidsCourrant=Double.valueOf(attAnimal[5]).doubleValue();
+				vivant=Boolean.valueOf(attAnimal[6]);
 				Test test=testIs(attAnimal[1]);
-				//test.lire(attAnimal[6]);
-				//animalIs(espece,ID,sexe,poids,test);
-				//
-				buff.close();
+				test.lire(attAnimal[7]);
+				animalIs(espece,ID,sexe,poidsInitial,poidsCourrant,vivant,test);
+			}
+			}catch(NullPointerException e){}
+			catch(ArrayIndexOutOfBoundsException e2){}
+				try{buff.close();}catch(IOException io){System.out.println(io);}
+				System.out.println("fini");
+			q=false;
+			//---------------Mauvaise entree--------------------//
+				}else{
+					System.out.println("mauvaise entree");
 				}
-		}catch (Exception e){
-			System.out.println("Fini");
+		}catch(IOException e){
+				System.out.println("Mauvaise entree");
+			}
 		}
+
 	}
 	public static Test testIs(String s){
-		Test test=null;
+		Test test=new Labyrinthe(Etude.duree);
 		if(s.equals("Labyrinthe")||s.equals("0")){
 			test=new Labyrinthe(Etude.duree);
 		}
@@ -440,23 +477,27 @@ public class Etude{
 			}
 		return test;
 	}
-	public static void animalIs(String s,String ID,char sexe,double poids,Test test){
-		Animal a=null;
-		if(s.equals("0")){
-			a=new Souris(ID,sexe,poids,test);
-			System.out.println(a.toString());
-			if(areYouSure()){
-				Etude.souris.add(a);
-				Etude.animaux.add(a);
-			}
-		}else if(s.equals("1")){
-			a=new Singe(ID,sexe,poids,test);
-			System.out.println(a.toString());
-			if(areYouSure()){
-				Etude.singes.add(a);
-				Etude.animaux.add(a);
-			}
+	public static void animalIs(String s,String ID,char sexe,double poids, double poidsCourrant,boolean vivant,Test test){
+		if((s.equals("0"))||(s.equals("sourisGl"))){
+			Animal a=new SourisGl(ID,sexe,poids,test);
+			a.setPoids(poidsCourrant);
+			a.setStress();
+			if( ! (vivant) ){a.setVivant();}
+			Etude.animaux.get(0).add(a);
+		}else if((s.equals("1"))||(s.equals("sourisGn"))){
+			Animal a=new SourisGn(ID,sexe,poids,test);
+			a.setPoids(poidsCourrant);
+			a.setStress();
+			if( ! (vivant) ){a.setVivant();}
+			Etude.animaux.get(0).add(a);
+		}else if((s.equals("2"))||(s.equals("singe"))){
+			Animal a=new Singe(ID,sexe,poids,test);
+			a.setPoids(poidsCourrant);
+			a.setStress();
+			if( ! (vivant) ){a.setVivant();}
+			Etude.animaux.get(1).add(a);
 		}
+		
 	}
 	public static boolean areYouSure(){
 		boolean output=false;

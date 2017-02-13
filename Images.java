@@ -74,6 +74,18 @@ public class Images implements Test{
 		}
 		}catch(IOException e){System.out.println("erreur");}
 	}
+	public void lire(String input){
+		String[] jours=input.split(",");
+		for(int i=0;i<jours.length;i++){
+			int[] resultats=new int[this.nbEssai];
+			String[] essais=jours[i].split(":");
+			for(int j=0;j<essais.length;j++){
+				int nbImages= Integer.valueOf(essais[i]);
+				resultats[j]=nbImages;
+			}
+			this.tentatives.add(resultats);
+		}
+	}
 }
 
 

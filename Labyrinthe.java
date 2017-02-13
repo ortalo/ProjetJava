@@ -50,4 +50,11 @@ public class Labyrinthe implements Test{
 		}
 		}catch(IOException e){System.out.println("Erreur");}
 	}
+	public void lire(String temps){
+		String[] tabTemps=temps.split(",");
+		for(int i=0;i<tabTemps.length;i++){
+			double dt=Double.valueOf(tabTemps[i]);
+			this.temps.add(dt);
+		}
+	}
 }
