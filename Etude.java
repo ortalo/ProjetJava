@@ -79,6 +79,7 @@ public class Etude{
 		Etude.jour++;
 		if( Etude.jour > 4 ){
 			Etude.semaine++;
+			Etude.jour=0;
 		}
 		for(Enumeration ea=Collections.enumeration(animaux);ea.hasMoreElements();){
 			ArrayList array=(ArrayList)ea.nextElement();
