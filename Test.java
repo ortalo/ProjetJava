@@ -6,5 +6,6 @@ public interface Test{
 	public String getType();
 	public void save(BufferedWriter buff);
 	public void lire(String input);
+	public void retireRes();
 }
 

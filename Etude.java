@@ -126,9 +126,30 @@ public class Etude{
 			}
 		}
 
-		System.out.println("Entrez l'IDentifiant: ");
-		String ID=saisie_chaine();
-		
+		String ID=null;
+		q=true;
+		while(q){
+			System.out.println("Entrez l'IDentifiant: ");
+			ID=saisie_chaine();
+			boolean existeDeja=false;
+			for(Enumeration ea=Collections.enumeration(animaux);ea.hasMoreElements();){
+				ArrayList array=(ArrayList)ea.nextElement();
+				for(Enumeration e=Collections.enumeration(array);e.hasMoreElements();){
+					Animal a=(Animal)e.nextElement();
+					if(a.getID().equals(ID)){
+						System.out.println("Cet ID existe deja: ");
+						System.out.println(a.toString());
+						existeDeja=true;
+						break;
+					}
+				}
+			}
+			if( ! existeDeja ){
+				q=false;
+			}
+		}
+
+
 		char sexe='u';
 		q=true;
 		while(q){
@@ -210,7 +231,7 @@ public class Etude{
 					System.out.println("3-Son poid initial");
 					System.out.println("4-Son poid courant");
 					System.out.println("5-Son statut (vivant ou mort)");
-					System.out.println("6-Son resultat au test du jour");
+					System.out.println("6-Son resultat au dernier test (supprime et remplace la deriere valeur)");
 					System.out.println("7-Quitter");
 					int reponse = saisie_entier();
 					switch(reponse){
@@ -246,6 +267,7 @@ public class Etude{
 								double p=saisie_double();
 								s.setPoids(p);
 								System.out.println("Enregistrement des resultats au test: ");
+								s.getTest().retireRes();
 								s.getTest().setResultats();
 							}else{
 								s.setVivant();
@@ -263,6 +285,9 @@ public class Etude{
 		return Etude.jour;
 	}
 	public static void bilan(){
+		if(Etude.jour != Etude.duree){
+			System.out.println("Impossible de lancer le bilan, la semaine n'est pas finie");
+		}else{
 		for(Enumeration ea=Collections.enumeration(animaux);ea.hasMoreElements();){
 			ArrayList array=(ArrayList)ea.nextElement();
 			System.out.println("------------------------Group------------------------");
@@ -281,7 +306,7 @@ public class Etude{
 		}
 		bestGroup(animaux);
 		compareStress();
-
+		}
 	}
 	public static double getAppMoy(ArrayList group){
 			int nbElements=0;

@@ -21,6 +21,9 @@ public class Labyrinthe implements Test{
 		double temps=Etude.saisie_double();
 		this.temps.add(temps);
 	}
+	public void retireRes(){
+		this.temps.remove(this.temps.size()-1);
+	}
 	public int getBestDay(int semaine){
 		int lundi=semaine*5; // Pour semaine 0: lundi =0 vendredi =4, semaine 1: lundi=5, vendredi=9, semaine 2: 10,14...
 		int vendredi=lundi+4;

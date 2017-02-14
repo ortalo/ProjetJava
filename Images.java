@@ -36,6 +36,9 @@ public class Images implements Test{
 		}
 		this.tentatives.add(resultats);
 	}
+	public void retireRes(){
+		this.tentatives.remove(this.tentatives.size()-1);
+	}
 	public int getBestDay(int semaine){
 		int lundi=semaine*5;
 		int vendredi=semaine+4;

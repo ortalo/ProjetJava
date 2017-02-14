@@ -1,1 +1,6 @@
-sourisGl-Labyrinthe-s-M-8.0-8.2-true-60.0,55.0,
+sourisGl-Labyrinthe-id-M-10.0-7.0-true-60.0,50.0,30.0,30.0,10.0,
+sourisGl-Labyrinthe-id2-M-10.0-7.0-true-50.0,30.0,20.0,20.0,10.0,
+sourisGn-Nourriture-id-M-10.0-8.0-true-5.0:true,2.0:true,3.0:true,2.0:true,3.0:true,
+sourisGn-Nourriture-marie-F-10.0-7.0-true-4.0:true,3.0:true,2.0:true,1.0:true,1.0:true,
+singe-Images-bonobo-M-30.0-26.0-true-8:8:8:8:8:,7:7:7:7:7:,6:6:6:6:6:,4:4:4:4:4:,3:3:3:3:3:,
+singe-Images-bono-F-30.0-25.0-true-7:7:7:6:7:,5:5:5:5:5:,4:4:4:4:4:,3:3:3:3:3:,1:1:1:1:1:,

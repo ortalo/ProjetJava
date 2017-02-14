@@ -24,6 +24,10 @@ public class Nourriture implements Test{
 		double nb=(double)Etude.saisie_double();
 		this.cachettes.add(nb);
 	}
+	public void retireRes(){
+		this.cachettes.remove(this.cachettes.size()-1);
+		this.succes.remove(this.succes.size()-1);
+	}
 	public int getBestDay(int semaine){
 		int lundi=semaine*5;
 		int vendredi=lundi+4;
