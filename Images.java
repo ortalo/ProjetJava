@@ -11,7 +11,7 @@ public class Images implements Test{
 	}
 	public double apprentissage(int semaine){
 		int lundi=semaine*5;
-		int vendredi=semaine+4;
+		int vendredi=lundi+4;
 		double moyenneLundi=0.0;
 		double sumLundi=0.0;
 		double moyenneVendredi=0.0;
